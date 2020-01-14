@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+		  <Title>ICommand property</Title>
+		  <Shortcut>cmd8</Shortcut>
+		  <Description>Snippet to add a Prism DelegateCommand with a payload.</Description>
+		  <Author>Wim Van Laer</Author>
+		  <SnippetTypes>
+			  <SnippetType>Expansion</SnippetType>
+		  </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>field</ID>
+          <ToolTip>Variable to hold the Command.</ToolTip>
+          <Default>_command</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>property</ID>
+          <ToolTip>Name of the Command.</ToolTip>
+          <Default>Command</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>method</ID>
+          <ToolTip>Method to execute when the command is executed.</ToolTip>
+          <Default>Execute</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>payloadType</ID>
+          <ToolTip>Type of the payload sent with the command.</ToolTip>
+          <Default>object</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[private ICommand $field$;
+        
+        public ICommand $property$ => $field$ ??= new DelegateCommand<$payloadType$>(x => $method$(x));
+        ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

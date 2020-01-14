@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+		  <Title>ICommand property</Title>
+		  <Shortcut>cmd</Shortcut>
+		  <Description>Snippet to add a Prism DelegateCommand.</Description>
+		  <Author>Wim Van Laer</Author>
+		  <SnippetTypes>
+			  <SnippetType>Expansion</SnippetType>
+		  </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>field</ID>
+          <ToolTip>Variable to hold the Command.</ToolTip>
+          <Default>_command</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>property</ID>
+          <ToolTip>Name of the Command.</ToolTip>
+          <Default>Command</Default>
+          <Function>
+          </Function>
+        </Literal>
+        <Literal Editable="true">
+          <ID>method</ID>
+          <ToolTip>Method to execute when the command is executed.</ToolTip>
+          <Default>Execute</Default>
+          <Function>
+          </Function>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[private ICommand $field$;
+        
+        public ICommand $property$ => $field$ ?? ($field$ = new DelegateCommand(() => $method$()));
+        ]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
