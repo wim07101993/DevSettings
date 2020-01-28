@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+		  <Title>Method</Title>
+		  <Shortcut>meth</Shortcut>
+		  <Description>Snippet to create a method.</Description>
+		  <Author>Wim Van Laer</Author>
+		  <SnippetTypes>
+			  <SnippetType>Expansion</SnippetType>
+		  </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>returnType</ID>
+          <ToolTip>Return type of the method.</ToolTip>
+          <Default>void</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>method</ID>
+          <ToolTip>Name of the method.</ToolTip>
+          <Default>Method</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>params</ID>
+          <ToolTip>Parameters of the method.</ToolTip>
+          <Default></Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public $returnType$ $method$($params$)
+        {
+        }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
