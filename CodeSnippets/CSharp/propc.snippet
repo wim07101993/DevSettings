@@ -25,15 +25,15 @@
 				<Literal>
 					<ID>field</ID>
 					<ToolTip>The variable backing this property</ToolTip>
-					<Default>_myVar</Default>
+					<Default>myVar</Default>
 				</Literal>
 			</Declarations>
-			<Code Language="csharp"><![CDATA[private $type$ $field$;
+			<Code Language="csharp"><![CDATA[private $type$ _$field$;
 
 	public $type$ $property$
 	{
-		get => $field$;
-		set => SetProperty(ref $field$, value);
+		get => _$field$;
+		set => SetProperty(ref _$field$, value);
 	}
 	$end$]]>
 			</Code>
