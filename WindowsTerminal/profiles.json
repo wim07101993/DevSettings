@@ -1,0 +1,109 @@
+
+// To view the default settings, hold "alt" while clicking on the "Settings" button.
+// For documentation on these settings, see: https://aka.ms/terminal-documentation
+
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+
+    "profiles":
+    [
+        {
+            "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+            "name": "Golang",
+            "commandline": "powershell.exe",
+            "foreground": "#cccccc",
+            "backgroundImage": "C:/Users/wimva/Pictures/WindowsTerminal/gopher-darker.png",
+            "backgroundImageAlignment": "bottom",
+            "backgroundImageStretchMode": "uniform",
+            "backgroundImageOpacity": 0.3,
+            "background": "#112222",
+            "colorScheme": "Solarized Light",
+            "useAcrylic": true,
+            "acrylicOpacity": 0.8,
+            "fontFace": "Fira code",
+            "fontSize": 11,
+            "padding": "0, 0, 0, 0",
+            "cursorColor": "#FFFFFF",
+            "tabTitle": "Golang rules 😎",
+            "icon": "C:/Users/wimva/Pictures/WindowsTerminal/go--.png",
+            "hidden": false
+        },
+        {
+            "guid": "{80f1a411-8bc6-4441-9c7d-84a258efae98}",
+            "name": "Retro",
+            "commandline": "powershell.exe",
+            "colorScheme": "Green",
+            "foreground": "#00FF00",
+            "backgroundImageAlignment": "bottom",
+            "backgroundImageStretchMode": "uniform",
+            "backgroundImageOpacity": 0.3,
+            "background": "#000500",
+            "experimental.retroTerminalEffect": true,
+            "fontFace": "Terminal",
+            "fontSize": 11,
+            "padding": "1, 1, 1, 1",
+            "cursorColor": "#00FF00",
+            "cursorShape": "vintage",
+            "tabTitle": "Let's go retro ",
+            "hidden": false,
+            "startingDirectory": "%USER%"
+        },
+        {
+            "guid": "{f6f43ae7-410b-4602-8ffd-c950576708d1}",
+            "name": "Windows PowerShell",
+            "commandline": "powershell.exe",
+            "background": "#012456",
+            "hidden": false
+        },
+        {
+            "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+            "name": "cmd",
+            "commandline": "cmd.exe",
+            "hidden": false
+        },
+        {
+            "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
+            "hidden": true,
+            "name": "Arch",
+            "source": "Windows.Terminal.Wsl"
+        },
+        {
+            "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+            "hidden": true,
+            "name": "Azure Cloud Shell",
+            "source": "Windows.Terminal.Azure"
+        }
+    ],
+
+    // Add custom color schemes to this array
+    "schemes": [
+        {
+            "name": "Green",
+            "black": "#00FF00",
+            "blue": "#00FF00",
+            "background": "#00FF00",
+            "brightBlack": "#00FF00",
+            "brightBlue": "#00FF00",
+            "brightCyan": "#00FF00",
+            "brightGreen": "#00FF00",
+            "brightPurple": "#00FF00",
+            "brightRed": "#00FF00",
+            "brightWhite": "#00FF00",
+            "brightYellow": "#00FF00",
+            "cyan": "#00FF00",
+            "foreground": "#00FF00",
+            "green": "#00FF00",
+            "purple": "#00FF00",
+            "red": "#00FF00",
+            "selectionBackground": "#005500",
+            "white": "#00FF00",
+            "yellow": "#00FF00"
+        }
+    ],
+
+    // Add any keybinding overrides to this array.
+    // To unbind a default keybinding, set the command to "unbound"
+    "keybindings": []
+}
