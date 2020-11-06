@@ -1,12 +1,28 @@
 param ($onlyFunctions)
-echo $onlyFunctions
-
 
 # ---------------------------------------------------------
 # ---------------------------------------------------------
 #  FUNCTIONS
 # ---------------------------------------------------------
 # ---------------------------------------------------------
+
+function AppendPath([String] $toAdd) {
+    $regexAddPath = [regex]::Escape($toAdd)
+    $originalPath = [System.Environment]::GetEnvironmentVariable('path', [System.EnvironmentVariableTarget]::User)
+
+    $split = $originalPath -split ';'
+
+    $alreadyContainsSegment = $FALSE
+    $split | ForEach-Object {
+        $alreadyContainsSegment = $alreadyContainsSegment -or ($_ -match "^$regexAddPath\\?")
+    }
+
+    if ($alreadyContainsSegment) {
+        return
+    }
+
+    [System.Environment]::SetEnvironmentVariable('path', ($split + $toAdd) -join ';', [System.EnvironmentVariableTarget]::User)
+}
 
 function SetEnvironmentVariables {
     echo "setting environment variables:"
@@ -16,8 +32,9 @@ function SetEnvironmentVariables {
     [System.Environment]::SetEnvironmentVariable('repos', $env:USERPROFILE + "\source\repos", [System.EnvironmentVariableTarget]::User)
     echo " - mypath => $env:USERPROFILE\bin"
     [System.Environment]::SetEnvironmentVariable('mypath', $env:USERPROFILE + "\bin", [System.EnvironmentVariableTarget]::User)
-    echo "appending $env:mypath to $env:path"
-    [System.Environment]::SetEnvironmentVariable('path', $env:PATH + ";" + $env:mypath, [System.EnvironmentVariableTarget]::User)
+
+    echo "appending $env:mypath to PATH"
+    AppendPath $env:mypath
 }
 
 function InstallOh-My-Posh {
@@ -60,7 +77,19 @@ function IsChocolateyInstalled {
     return $exists
 }
 
-function InstallPackages {
+function InstallFlutter {
+    $flutterDirectory = $env:repos + "\flutter"
+    if (-not (Test-Path -Path ($flutterDirectory + "\bin\dart")))
+    {
+        echo "cloning flutter sdk"
+        git clone https://github.com/flutter/flutter.git $flutterDirectory -b stable
+    }
+    echo "appending flutter to path"
+
+    AppendPath ($flutterDirectory + "\bin")
+}
+
+function InstallChocoPackages {
     if (IsChocolateyInstalled) 
     {
         echo "chocolatey already installed"
@@ -77,8 +106,8 @@ function InstallPackages {
     choco install vscode androidstudio notepadplusplus -y
 
     # sdk's
-    echo "installing netcore, golang and flutter"
-    choco install dotnetcore-sdk golang flutter -y
+    echo "installing netcore and golang"
+    choco install dotnetcore-sdk golang -y
 
     # other dev stuff
     echo "installing ms-terminal, git and sourcetree" # docker
@@ -99,6 +128,9 @@ function InstallPackages {
     # fonts
     echo "installing fira-code"
     choco install firacode
+
+    # flutter
+    InstallFlutter
 }
 
 function SetMicrosoftTerminalSettings {
@@ -108,7 +140,7 @@ function SetMicrosoftTerminalSettings {
     {
         git clone https://github.com/wim07101993/DevSettings
     }
-    cp $env:repos\DevSettings\WindowsTerminal\settings.json C:\Users\wvl\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+    cp $env:repos\DevSettings\WindowsTerminal\settings.json $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 }
 
 function EnableWSL {
@@ -127,6 +159,7 @@ function EnableWSL {
 
 if ($onlyFunctions)
 {
+    echo "skipping actual execution of script"
     return
 }
 
@@ -135,7 +168,8 @@ InstallOh-My-Posh
 
 if (Test-Administrator)
 {
-    InstallPackages
+    InstallChocoPackages
+    InstallFlutter
     # EnableWSL
 } 
 else 
