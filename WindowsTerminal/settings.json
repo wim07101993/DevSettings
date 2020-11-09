@@ -23,7 +23,7 @@
             "backgroundImageStretchMode": "uniform",
             "backgroundImageOpacity": 0.3,
             "background": "#112222",
-            "colorScheme": "Solarized Light",
+            "colorScheme": "Campbell",
             "useAcrylic": true,
             "acrylicOpacity": 0.8,
             "fontFace": "Fira code",

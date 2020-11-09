@@ -32,7 +32,9 @@ function SetEnvironmentVariables {
     [System.Environment]::SetEnvironmentVariable('repos', $env:USERPROFILE + "\source\repos", [System.EnvironmentVariableTarget]::User)
     echo " - mypath => $env:USERPROFILE\bin"
     [System.Environment]::SetEnvironmentVariable('mypath', $env:USERPROFILE + "\bin", [System.EnvironmentVariableTarget]::User)
-
+    echo " - choco tool path"
+    [System.Environment]::SetEnvironmentVariable('ChocolateyToolsLocation', "C:\tools", [System.EnvironmentVariableTarget]::User)
+    
     echo "appending $env:mypath to PATH"
     AppendPath $env:mypath
 }
@@ -42,12 +44,6 @@ function InstallOh-My-Posh {
     # install modules
     Install-Module posh-git -Scope CurrentUser
     Install-Module oh-my-posh -Scope CurrentUser
-
-    echo "setting prompt and theme"
-    # Start the default settings
-    Set-Prompt
-    # Alternatively set the desired theme:
-    Set-Theme RobbyRussell
 }
 
 function Test-Administrator {  
@@ -78,7 +74,11 @@ function IsChocolateyInstalled {
 }
 
 function InstallFlutter {
-    $flutterDirectory = $env:repos + "\flutter"
+    if (-not $env:ChocolateyToolsLocation) {
+        SetEnvironmentVariables
+    }
+
+    $flutterDirectory = $env:ChocolateyToolsLocation + "\flutter"
     if (-not (Test-Path -Path ($flutterDirectory + "\bin\dart")))
     {
         echo "cloning flutter sdk"
@@ -102,12 +102,12 @@ function InstallChocoPackages {
     }
     
     # ide's / editors
-    echo "installing vscode, android studio and notepad++"
-    choco install vscode androidstudio notepadplusplus -y
+    echo "installing vscode, android studio, vim and notepad++"
+    choco install vscode androidstudio vim notepadplusplus linqpad -y
 
     # sdk's
-    echo "installing netcore and golang"
-    choco install dotnetcore-sdk golang -y
+    echo "installing netcore and golang flutter"
+    choco install dotnetcore-sdk golang flutter -y
 
     # other dev stuff
     echo "installing ms-terminal, git and sourcetree" # docker
@@ -133,6 +133,11 @@ function InstallChocoPackages {
     InstallFlutter
 }
 
+function EnableWSL {
+    echo "enabling wsl"
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+}
+
 function SetMicrosoftTerminalSettings {
     echo "setting ms-terminal settings"
 
@@ -143,11 +148,13 @@ function SetMicrosoftTerminalSettings {
     cp $env:repos\DevSettings\WindowsTerminal\settings.json $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 }
 
-function EnableWSL {
-    echo "enabling wsl"
-    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+function SetPowerShellProfile {
+    echo "setting PowerShell profile"
+    # Start the default settings
+    Set-Prompt
+    # Alternatively set the desired theme:
+    Set-Theme RobbyRussell
 }
-
 
 
 
@@ -182,4 +189,4 @@ else
 }
 
 SetMicrosoftTerminalSettings
-
+SetPowerShellProfile
