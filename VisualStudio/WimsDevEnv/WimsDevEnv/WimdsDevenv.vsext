@@ -1,0 +1,38 @@
+{
+  "description": "Read about creating extension packs at https://aka.ms/vsextpack",
+  "version": "1.0.0.0",
+  "extensions": [
+    {
+      "vsixId": "4c82e17d-927e-42d2-8460-b473ac7df316",
+      "name": "CodeMaid"
+    },
+    {
+      "vsixId": "9ca64947-e9ca-4543-bfb8-6cce9be19fd6",
+      "name": "MardownEditor"
+    },
+    {
+      "vsixId": "43b35fe0-1f30-48de-887a-68256474202a",
+      "name": "ResXManager"
+    },
+    {
+      "vsixId": "1209461d-57f8-46a4-814a-dbe5fecef941",
+      "name": "EditorConfig Language Service"
+    },
+    {
+      "vsixId": "3a7b4930-a5fb-46ec-a9b8-9610c8f953b8",
+      "name": "File Icons"
+    },
+    {
+      "vsixId": "9da28329-f9d5-4f18-91c3-d3285b103d1a",
+      "name": "Learn the Shortcuts"
+    },
+    {
+      "vsixId": "VSOutputEnhancer.Nikolay Balakin.a06be4c3-f97e-425c-8a0d-bdef08ac2abb",
+      "name": "Output enhancer"
+    },
+    {
+      "vsixId": "0c8bd9fa-77d5-4563-ab57-9e01608c3d04",
+      "name": "Tweaks"
+    }
+  ]
+}
