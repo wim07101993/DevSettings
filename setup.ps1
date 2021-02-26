@@ -123,11 +123,11 @@ function InstallChocoPackages {
 
     # other
     echo "installing powertoys"
-    choco install powertoys putty -y
+    choco install powertoys putty googlechrome -y
 
     # fonts
     echo "installing fira-code"
-    choco install firacode
+    choco install firacode -y
 
     # flutter
     InstallFlutter
@@ -136,6 +136,7 @@ function InstallChocoPackages {
 function EnableWSL {
     echo "enabling wsl"
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+    Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 }
 
 function SetMicrosoftTerminalSettings {
