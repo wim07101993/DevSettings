@@ -25,22 +25,22 @@ function AppendPath([String] $toAdd) {
 }
 
 function SetEnvironmentVariables {
-    echo "setting environment variables:"
-    echo " - source => $env:USERPROFILE\source"
+    Write-Output "setting environment variables:"
+    Write-Output " - source => $env:USERPROFILE\source"
     [System.Environment]::SetEnvironmentVariable('source', $env:USERPROFILE + "\source", [System.EnvironmentVariableTarget]::User)
-    echo " - repos => $env:USERPROFILE\source\repos"
+    Write-Output " - repos => $env:USERPROFILE\source\repos"
     [System.Environment]::SetEnvironmentVariable('repos', $env:USERPROFILE + "\source\repos", [System.EnvironmentVariableTarget]::User)
-    echo " - mypath => $env:USERPROFILE\bin"
+    Write-Output " - mypath => $env:USERPROFILE\bin"
     [System.Environment]::SetEnvironmentVariable('mypath', $env:USERPROFILE + "\bin", [System.EnvironmentVariableTarget]::User)
-    echo " - choco tool path"
+    Write-Output " - choco tool path"
     [System.Environment]::SetEnvironmentVariable('ChocolateyToolsLocation', "C:\tools", [System.EnvironmentVariableTarget]::User)
     
-    echo "appending $env:mypath to PATH"
+    Write-Output "appending $env:mypath to PATH"
     AppendPath $env:mypath
 }
 
-function InstallOh-My-Posh {
-    echo "installing oh-my-posh"
+function InstallOhMyPosh {
+    Write-Output "installing oh-my-posh"
     # install modules
     Install-Module posh-git -Scope CurrentUser
     Install-Module oh-my-posh -Scope CurrentUser
@@ -55,19 +55,15 @@ function IsChocolateyInstalled {
     $oldPreference = $ErrorActionPreference
     $ErrorActionPreference = 'stop'
     $exists = $false
-    try 
-    { 
-        if (Get-Command 'choco') 
-        {
+    try { 
+        if (Get-Command 'choco') {
             $exists = $true 
         } 
     }
-    catch 
-    { 
-        $exis = $false 
+    catch { 
+        $exists = $false 
     }
-    finally 
-    { 
+    finally { 
         $ErrorActionPreference = $oldPreference 
     }
     return $exists
@@ -79,54 +75,51 @@ function InstallFlutter {
     }
 
     $flutterDirectory = $env:ChocolateyToolsLocation + "\flutter"
-    if (-not (Test-Path -Path ($flutterDirectory + "\bin\dart")))
-    {
-        echo "cloning flutter sdk"
+    if (-not (Test-Path -Path ($flutterDirectory + "\bin\dart"))) {
+        Write-Output "cloning flutter sdk"
         git clone https://github.com/flutter/flutter.git $flutterDirectory -b stable
     }
-    echo "appending flutter to path"
+    Write-Output "appending flutter to path"
 
     AppendPath ($flutterDirectory + "\bin")
 }
 
 function InstallChocoPackages {
-    if (IsChocolateyInstalled) 
-    {
-        echo "chocolatey already installed"
+    if (IsChocolateyInstalled) {
+        Write-Output "chocolatey already installed"
     }
-    else
-    {
-        echo "installing chocolatey"
+    else {
+        Write-Output "installing chocolatey"
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072 
-        iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
     }
     
     # ide's / editors
-    echo "installing vscode, android studio, vim and notepad++"
+    Write-Output "installing vscode, android studio, vim and notepad++"
     choco install vscode androidstudio vim notepadplusplus linqpad -y
 
     # sdk's
-    echo "installing netcore and golang flutter"
+    Write-Output "installing netcore and golang flutter"
     choco install dotnetcore-sdk golang flutter -y
 
     # other dev stuff
-    echo "installing ms-terminal, git and sourcetree" # docker
+    Write-Output "installing ms-terminal, git and sourcetree" # docker
     choco install microsoft-windows-terminal git sourcetree -y # docker-cli docker-desktop -y
 
     # social
-    echo "installing whatsapp and slack"
+    Write-Output "installing whatsapp and slack"
     choco install whatsapp slack -y
 
     # media
-    echo "installing vlc, spotify and gimp"
+    Write-Output "installing vlc, spotify and gimp"
     choco install vlc spotify gimp -y
 
     # other
-    echo "installing powertoys"
+    Write-Output "installing powertoys"
     choco install powertoys putty googlechrome -y
 
     # fonts
-    echo "installing fira-code"
+    Write-Output "installing fira-code"
     choco install firacode -y
 
     # flutter
@@ -134,23 +127,22 @@ function InstallChocoPackages {
 }
 
 function EnableWSL {
-    echo "enabling wsl"
+    Write-Output "enabling wsl"
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
     Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 }
 
 function SetMicrosoftTerminalSettings {
-    echo "setting ms-terminal settings"
+    Write-Output "setting ms-terminal settings"
 
-    if (-not (Test-Path -Path $env:repos\DevSettings\WindowsTerminal\settings.json)) 
-    {
+    if (-not (Test-Path -Path $env:repos\DevSettings\WindowsTerminal\settings.json)) {
         git clone https://github.com/wim07101993/DevSettings
     }
-    cp $env:repos\DevSettings\WindowsTerminal\settings.json $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+    Copy-Item $env:repos\DevSettings\WindowsTerminal\settings.json $env:USERPROFILE\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
 }
 
 function SetPowerShellProfile {
-    echo "setting PowerShell profile"
+    Write-Output "setting PowerShell profile"
     # Start the default settings
     Set-Prompt
     # Alternatively set the desired theme:
@@ -165,28 +157,24 @@ function SetPowerShellProfile {
 # ---------------------------------------------------------
 # ---------------------------------------------------------
 
-if ($onlyFunctions)
-{
-    echo "skipping actual execution of script"
+if ($onlyFunctions) {
+    Write-Output "skipping actual execution of script"
     return
 }
 
 SetEnvironmentVariables
-InstallOh-My-Posh
+InstallOhMyPosh
 
-if (Test-Administrator)
-{
+if (Test-Administrator) {
     InstallChocoPackages
     InstallFlutter
     # EnableWSL
 } 
-else 
-{
-    try
-    {
+else {
+    try {
         &Start-Process -FilePath powershell.exe -verb RunAs -ArgumentList "-NoExit $PSScriptRoot\setup.ps1"
     }
-    catch{}
+    catch {}
 }
 
 SetMicrosoftTerminalSettings
